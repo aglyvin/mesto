@@ -1,0 +1,17 @@
+.profile__addButton {
+    grid-column-start: 4;
+    grid-column-end: 5;
+    width: 150px;
+    height: 50px;
+    border: 2px solid #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 0;
+    background-color: #000000;
+    background-image: url(../../../images/add-button.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    align-self: center;
+    /* transition: opacity .3s ease; */
+}

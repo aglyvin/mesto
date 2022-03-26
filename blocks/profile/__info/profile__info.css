@@ -1,0 +1,5 @@
+.profile__info {
+    max-width: 336px;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
