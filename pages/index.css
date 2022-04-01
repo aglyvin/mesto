@@ -1,4 +1,5 @@
 @import url(../vendor/normalize.css);
+@import url(../fonts/fonts.css);
 @import url(../blocks/page/page.css);
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
@@ -6,5 +7,12 @@
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__avatar/profile__avatar.css);
 @import url(../blocks/profile/__info/profile__info.css);
-@import url(../blocks/profile/__add-button/profile__addButton.css);
+@import url(../blocks/profile/__add-button/profile__add-button.css);
 @import url(../blocks/profile/__empty/profile__empty.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__caption/profile__caption.css);
+@import url(../blocks/profile/__name-container/profile__name-container.css);
+@import url(../blocks/profile/__edit-button/profile__edit-button.css);
+@import url(../blocks/photos/photos.css);
+@import url(../blocks/photos/__elements/photos__elements.css);
+@import url(../blocks/photos/__element/photos__element.css);

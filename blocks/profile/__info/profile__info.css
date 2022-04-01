@@ -2,4 +2,6 @@
     max-width: 336px;
     grid-column-start: 2;
     grid-column-end: 3;
+    align-self: center;
+    margin: 0 17px 0 30px;
 }
