@@ -1,8 +1,0 @@
-.photos__element {
-    position: relative;
-    justify-self: center;
-    min-width: 282px;
-    max-width: 282px;
-    overflow: hidden;
-    border-radius: 10px;
-  }
