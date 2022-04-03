@@ -1,3 +1,9 @@
 .profile__name-container {
     display: flex;
 }
+
+@media screen and (max-width: 907px) {
+    .profile__name-container {
+        
+    }
+}

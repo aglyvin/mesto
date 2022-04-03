@@ -5,7 +5,17 @@
     line-height: 22px;
     font-weight: 400;
     color: #FFFFFF;
-    /* text-overflow: ellipsis;
+    text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden; */
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 907px) {
+    .profile__caption {
+      font-size: 14px;
+      line-height: 17px;
+      text-align: center;
+      padding-top: 8px;
+      padding-bottom: 36px;
+    }
   }

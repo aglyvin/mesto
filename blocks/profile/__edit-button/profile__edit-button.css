@@ -12,3 +12,11 @@
     background-repeat: no-repeat;
     transition: opacity .3s ease;
   }
+
+  @media screen and (max-width: 907px) {
+    .profile__edit-button {
+      width: 18px;
+      height:18px;
+      padding-left: 10px;
+    }
+  }

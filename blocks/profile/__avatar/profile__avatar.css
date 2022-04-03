@@ -6,3 +6,9 @@
     grid-column-start: 1;
     grid-column-end: 2;
 }
+
+@media screen and (max-width: 907px) {
+    .profile__avatar {
+        margin-bottom: 26px;
+    }
+}
