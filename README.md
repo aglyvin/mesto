@@ -15,5 +15,3 @@
 Не забудьте [оптимизировать картинки](https://tinypng.com/), чтобы ваш сайт загружался быстрее.
 
 Удачи!
-
-https://github.com/andreysdrv/mesto/tree/main/src
