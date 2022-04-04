@@ -14,4 +14,4 @@
 * BEM Metodology
 
 
-* [Ссылка на проект](https://aglyvin.github.io/mesto/)
+[Ссылка на проект](https://aglyvin.github.io/mesto/)
