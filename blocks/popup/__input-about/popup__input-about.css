@@ -1,0 +1,9 @@
+.popup__input-about {
+    margin: 0 36px 48px;
+    height: 27px;
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, .3);
+    font-size: 14px;
+    line-height: 17px;
+}

@@ -7,4 +7,9 @@
     background-color: transparent;
     transition: .2s;
     outline: none;
+    cursor: pointer;
   }
+
+  .elements__like-button:hover {
+    opacity: .8;
+}
