@@ -21,9 +21,10 @@ closeButton.addEventListener('click', function() {
     popup.classList.remove('popup_opened');
 });
 
-let saveButton = document.querySelector('.popup__save-button');
+let form = document.querySelector('.popup__form');
 
-saveButton.addEventListener('click', function() {
+form.addEventListener('submit', function(event) {
+    event.preventDefault(); 
     profileName.innerHTML = popupName.value;
     profileAbout.innerHTML = popupAbout.value;
     popup.classList.remove('popup_opened');
