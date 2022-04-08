@@ -1,9 +1,17 @@
+/* .profile {
+    max-width: 880px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+} */
+
 .profile {
     max-width: 880px;
     margin: 0 auto;
     padding-bottom: 50px;
     display: grid;
-    grid-template-columns: 120px auto 1fr 150px;
+    grid-template-columns: 120px auto  150px;
 }
 
 @media screen and (max-width: 907px) {

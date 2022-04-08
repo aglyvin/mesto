@@ -4,21 +4,7 @@
     width: 150px;
     height: 50px;
     border: 2px solid white;
-    box-sizing: border-box;
-    border-radius: 2px;
-    cursor: pointer;
-    padding: 0;
-    background-color: black;
-    /* background-image: url(../../../images/add-button.svg); */
     background-image: url(../../../images/plus.svg);
-    background-position: center;
-    background-repeat: no-repeat;
-    align-self: center;
-    transition: opacity .3s ease;
-}
-
-.profile__add-button:hover {
-    opacity: .8;
 }
 
 @media screen and (max-width: 907px) {
