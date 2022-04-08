@@ -25,7 +25,6 @@ let saveButton = document.querySelector('.popup__save-button');
 
 saveButton.addEventListener('click', function() {
     profileName.innerHTML = popupName.value;
-    console.log(profileName.innerHTML);
     profileAbout.innerHTML = popupAbout.value;
     popup.classList.remove('popup_opened');
 });
