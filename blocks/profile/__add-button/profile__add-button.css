@@ -5,6 +5,8 @@
     height: 50px;
     border: 2px solid white;
     background-image: url(../../../images/plus.svg);
+    background-size: 22px;
+    justify-self: right;
 }
 
 @media screen and (max-width: 907px) {

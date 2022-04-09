@@ -1,7 +1,7 @@
 .popup__close-button {
     position: absolute;
-    top: -32px;
-    right: -32px;
+    top: -40px;
+    right: -40px;
     padding: 0;
     display: flex;
     background-image: url(../../../images/Close\ Icon.svg);
