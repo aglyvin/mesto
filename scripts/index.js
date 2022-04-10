@@ -107,7 +107,10 @@ function addNewCard(card) {
         previewPopup.querySelector('.popup-preview__photo-caption').textContent=card['name'];
         previewPopup.querySelector('.popup-preview__image').src = card['link'];
         previewPopup.classList.add('popup-preview_opened');
-        previewPopup.querySelector('.popup-preview__close-button').addEventListener('click', () => previewPopup.classList.remove("popup__preview_opened"));
+        previewPopup.querySelector('.popup-preview__close-button').addEventListener('click', function() {
+            previewPopup.classList.remove("popup-preview_opened")
+            console.log('sdf');
+        });
     });
     cards.insertBefore(newCard, cards.firstChild);
 }
