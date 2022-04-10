@@ -21,8 +21,8 @@ formEditProfile.addEventListener('submit', function (event) {
     event.preventDefault();
     profileName.innerHTML = popupName.value;
     profileAbout.innerHTML = popupAbout.value;
-    popup.classList.remove('popup_opened');
-});
+    closePopup();
+    });
 
 let formAdd = document.querySelector('#form-add').content.querySelector('.popup__form');
 let photoName = formAdd.querySelector('.popup__input[name=photo-name]');
@@ -40,14 +40,24 @@ formAdd.addEventListener('submit', function (event) {
     event.preventDefault();
     let newCard = {name: photoName.value, link: photoLink.value};
     addNewCard(newCard);
-    popup.classList.remove('popup_opened');
+    closePopup();
 });
 
 let closeButton = document.querySelector('.popup__close-button');
 
-closeButton.addEventListener('click', function () {
+closeButton.addEventListener('click', closePopup);
+
+
+function closePopup() {
     popup.classList.remove('popup_opened');
-});
+    const popupContainerNodes = popup.querySelector('.popup__container').childNodes;
+    popupContainerNodes.forEach(function(item) {
+        console.log(item.nodeName);
+        if (item.nodeName=='FORM') {
+            item.parentNode.removeChild(item);
+        }
+    });
+}
 
 const initialCards = [
     {
@@ -83,10 +93,22 @@ function addNewCard(card) {
     let newCard = cardTemplate.cloneNode(true);
     newCard.querySelector('.elements__image').src = card['link'];
     newCard.querySelector('.elements__title').textContent = card['name'];
-    const button = newCard.querySelector('.elements__like-button');
-    button.addEventListener('click', function() {
-        button.classList.toggle('elements__like-button_liked');
+    const likeButton = newCard.querySelector('.elements__like-button');
+    likeButton.addEventListener('click', function() {
+        likeButton.classList.toggle('elements__like-button_liked');
         console.log("liked");
+    });
+    const deleteButton = newCard.querySelector('.elements__delete-button');
+    deleteButton.addEventListener('click', function() {
+        deleteButton.parentElement.remove(newCard);
+    });
+    newCard.addEventListener('click', function() {
+        const previewPopup = document.querySelector('.popup__preview'); 
+        previewPopup.querySelector('.popup__photo-caption').textContent=card['name'];
+        previewPopup.querySelector('.popup__image').src = card['link'];
+        previewPopup.classList.add('popup__preview_opened');
+        console.log(previewPopup);
+        previewPopup.querySelector('.popup__preview-close-button').addEventListener('click', () => previewPopup.classList.remove("popup__preview_opened"));
     });
     cards.insertBefore(newCard, cards.firstChild);
 }

@@ -43,6 +43,16 @@
         </div>
     </div>
 
+    <div class="popup__preview">
+        <div class="popup__preview-container">
+            <button class="popup__preview-close-button" type="button"></button>
+            <figure class="popup__photo-figure">
+                <img src="" alt="" class="popup__image">
+                <figcaption class="popup__photo-caption"></figcaption>
+            </figure>          
+        </div>
+    </div>
+
     <template id="form-edit-profile">
         <form class="popup__form">
             <input name="input-name" type="text" class="popup__input" />
@@ -61,7 +71,8 @@
 
     <template id="card">
         <li class="elements__card">
-            <img class="elements__image"/>
+            <img class="elements__image" />
+            <button class="elements__delete-button"></button>
             <div class="elements__title-container">
                 <h2 class="elements__title"></h2>
                 <button type="button" class="elements__like-button"></button>
