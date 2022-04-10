@@ -28,53 +28,6 @@
 
         <section class="photos">
             <ul class="elements">
-                <li class="elements__card">
-                    <img src="./images/karachaevsk.jpg" class="elements__image" alt="Монастырь в горах" />
-                    <div class="elements__title-container">
-                        <h2 class="elements__title">Карачаевск</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-
-                <li class="elements__card">
-                    <img src="./images/elbrus.png" class="elements__image" alt="Вид на Эльбрус" />
-                    <div class="elements__title-container">
-                        <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-
-                <li class="elements__card">
-                    <img src="./images/dombay.png" class="elements__image" alt="Горный пик" />
-                    <div class="elements__title-container">
-                        <h2 class="elements__title">Домбай</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-
-                <li class="elements__card">
-                    <img src="./images/elbrus.png" class="elements__image" alt="Вид на Эльбрус" />
-                    <div class="elements__title-container">
-                        <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-
-                <li class="elements__card">
-                    <img src="./images/dombay.png" class="elements__image" alt="Горный пик" />
-                    <div class="elements__title-container">
-                        <h2 class="elements__title">Домбай</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
-
-                <li class="elements__card">
-                    <img src="./images/karachaevsk.jpg" class="elements__image" alt="Монастырь в горах" />
-                    <div class="elements__title-container">
-                        <h2 class="elements__title">Карачаево-Черкессия</h2>
-                        <button type="button" class="elements__like-button"></button>
-                    </div>
-                </li>
             </ul>
         </section>
     </main>
@@ -85,15 +38,37 @@
 
     <div class="popup">
         <div class="popup__container">
-            <h2 class="popup__title">Редактировать профиль</h2>
-            <form class="popup__form" name="popup-form">
-                <input name="input-name" type="text" class="popup__input popup__input-name" />
-                <input name="input-about" type="text" class="popup__input popup__input-about" />
-                <button class="popup__save-button" type="submit">Сохранить</button>
-            </form>
+            <h2 class="popup__title"></h2>
             <button class="popup__close-button" type="button"></button>
         </div>
     </div>
+
+    <template id="form-edit-profile">
+        <form class="popup__form">
+            <input name="input-name" type="text" class="popup__input" />
+            <input name="input-about" type="text" class="popup__input" />
+            <button class="popup__save-button" type="submit">Сохранить</button>
+        </form>
+    </template>
+
+    <template id="form-add">
+        <form class="popup__form">
+            <input name="photo-name" type="text" class="popup__input" />
+            <input name="photo-link" type="text" class="popup__input" />
+            <button class="popup__save-button" type="submit">Сохранить</button>
+        </form>
+    </template>
+
+    <template id="card">
+        <li class="elements__card">
+            <img class="elements__image"/>
+            <div class="elements__title-container">
+                <h2 class="elements__title"></h2>
+                <button type="button" class="elements__like-button"></button>
+            </div>
+        </li>
+    </template>
+
     <script src="./scripts/index.js"></script>
 </body>
 
