@@ -103,12 +103,11 @@ function addNewCard(card) {
         deleteButton.parentElement.remove(newCard);
     });
     newCard.addEventListener('click', function() {
-        const previewPopup = document.querySelector('.popup__preview'); 
-        previewPopup.querySelector('.popup__photo-caption').textContent=card['name'];
-        previewPopup.querySelector('.popup__image').src = card['link'];
-        previewPopup.classList.add('popup__preview_opened');
-        console.log(previewPopup);
-        previewPopup.querySelector('.popup__preview-close-button').addEventListener('click', () => previewPopup.classList.remove("popup__preview_opened"));
+        const previewPopup = document.querySelector('.popup-preview'); 
+        previewPopup.querySelector('.popup-preview__photo-caption').textContent=card['name'];
+        previewPopup.querySelector('.popup-preview__image').src = card['link'];
+        previewPopup.classList.add('popup-preview_opened');
+        previewPopup.querySelector('.popup-preview__close-button').addEventListener('click', () => previewPopup.classList.remove("popup__preview_opened"));
     });
     cards.insertBefore(newCard, cards.firstChild);
 }

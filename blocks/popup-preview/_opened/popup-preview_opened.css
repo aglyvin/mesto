@@ -1,4 +1,4 @@
-.popup__preview_opened {
+.popup-preview_opened {
     display: flex;
     visibility: visible;
     opacity: 1;
