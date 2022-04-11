@@ -1,86 +1,90 @@
 <!DOCTYPE html>
 <html lang="ru">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./pages/index.css" />
     <title>Mesto</title>
-</head>
+  </head>
 
-<body class="page">
+  <body class="page">
     <header class="header">
-        <div class="header__logo"></div>
+      <div class="header__logo"></div>
     </header>
     <main class="main">
-        <section class="profile">
-            <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватар" />
-            <div class="profile__info">
-                <div class="profile__name-container">
-                    <h1 class="profile__name">Жак-Ив Кусто</h1>
-                    <button class="profile__button profile__edit-button" type="button"
-                        aria-label="Редактировать профиль"></button>
-                </div>
-                <p class="profile__caption">Исследователь океана</p>
-            </div>
-            <button class="profile__button profile__add-button" type="button"></button>
-        </section>
+      <section class="profile">
+        <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватар" />
+        <div class="profile__info">
+          <div class="profile__name-container">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <button
+              class="profile__button profile__edit-button"
+              type="button"
+              aria-label="Редактировать профиль"
+            ></button>
+          </div>
+          <p class="profile__caption">Исследователь океана</p>
+        </div>
+        <button
+          class="profile__button profile__add-button"
+          type="button"
+        ></button>
+      </section>
 
-        <section class="photos">
-            <ul class="elements">
-            </ul>
-        </section>
+      <section class="photos">
+        <ul class="elements"></ul>
+      </section>
     </main>
 
     <footer class="footer">
-        <p class="footer__content">&copy; 2022 Mesto Russia</p>
+      <p class="footer__content">&copy; 2022 Mesto Russia</p>
     </footer>
 
-    <div class="popup">
-        <div class="popup__container">
-            <h2 class="popup__title"></h2>
-            <button class="popup__close-button" type="button"></button>
-        </div>
+    <div class="popup popup-edit-profile">
+      <div class="popup__container">
+        <h2 class="popup__title"></h2>
+        <form class="popup__form">
+          <input name="input-name" type="text" class="popup__input"/>
+          <input name="input-about" type="text" class="popup__input"/>
+          <button class="popup__save-button" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__close-button " type="button"></button>
+      </div>
     </div>
 
-    <div class="popup-preview">
-        <div class="popup-preview__container">
-            <button class="popup-preview__close-button" type="button"></button>
-            <figure class="popup-preview__photo-figure">
-                <img class="popup-preview__image">
-                <figcaption class="popup-preview__photo-caption"></figcaption>
-            </figure>          
-        </div>
+    <div class="popup popup-preview">
+      <div class="popup-preview__container">
+        <button class="popup-preview__close-button" type="button"></button>
+        <figure class="popup-preview__photo-figure">
+          <img class="popup-preview__image" />
+          <figcaption class="popup-preview__photo-caption"></figcaption>
+        </figure>
+      </div>
     </div>
 
-    <template id="form-edit-profile">
+    <div class="popup popup-add-photo">
+      <div class="popup__container">
+        <h2 class="popup__title"></h2>
         <form class="popup__form">
-            <input name="input-name" type="text" class="popup__input" />
-            <input name="input-about" type="text" class="popup__input" />
-            <button class="popup__save-button" type="submit">Сохранить</button>
+          <input name="photo-name" type="text" class="popup__input" placeholder="Название"/>
+          <input name="photo-link" type="text" class="popup__input" placeholder="Ссылка на картинку"/>
+          <button class="popup__save-button" type="submit">Сохранить</button>
         </form>
-    </template>
-
-    <template id="form-add">
-        <form class="popup__form">
-            <input name="photo-name" type="text" class="popup__input" />
-            <input name="photo-link" type="text" class="popup__input" />
-            <button class="popup__save-button" type="submit">Сохранить</button>
-        </form>
-    </template>
+        <button class="popup__close-button" type="button"></button>
+      </div>
+    </div>
 
     <template id="card">
-        <li class="elements__card">
-            <img class="elements__image" />
-            <button class="elements__delete-button"></button>
-            <div class="elements__title-container">
-                <h2 class="elements__title"></h2>
-                <button type="button" class="elements__like-button"></button>
-            </div>
-        </li>
+      <li class="elements__card">
+        <img class="elements__image" />
+        <button class="elements__delete-button"></button>
+        <div class="elements__title-container">
+          <h2 class="elements__title"></h2>
+          <button type="button" class="elements__like-button"></button>
+        </div>
+      </li>
     </template>
 
     <script src="./scripts/index.js"></script>
-</body>
-
+  </body>
 </html>

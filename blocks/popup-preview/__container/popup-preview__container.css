@@ -3,7 +3,6 @@
     position: relative;
     max-width: 75vw;
     max-height: 75vh;
-    display: flex;
-    flex-direction: column;
+
     
 }
