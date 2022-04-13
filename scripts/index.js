@@ -12,10 +12,9 @@ const popupName = formEditProfile.querySelector('.popup__input[name=input-name]'
 const popupAbout = formEditProfile.querySelector('.popup__input[name=input-about]');
 popupEditProfile.querySelector('.popup__close-button').addEventListener('click', () => closePopup(popupEditProfile));
 profileEditButton.addEventListener('click', () => {
-    openPopup(popupEditProfile);
-    popupEditProfile.querySelector('.popup__title').textContent='Редактировать профиль';
     popupName.value = profileName.textContent;
     popupAbout.value = profileAbout.textContent;
+    openPopup(popupEditProfile);
 });
 formEditProfile.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -29,11 +28,10 @@ const photoName = formAdd.querySelector('.popup__input[name=photo-name]');
 const photoLink = formAdd.querySelector('.popup__input[name=photo-link]');
 
 document.querySelector('.profile__add-button').addEventListener('click', () => {
-    openPopup(popupAddPhoto);
     photoName.value = '';
     photoLink.value = '';
-    popup.querySelector('.popup__container').querySelector('.popup__title').textContent='Новое место';
-    popup.querySelector('.popup__container').append(formAdd);
+    // popup.querySelector('.popup__container').append(formAdd);
+    openPopup(popupAddPhoto);
 });
 
 formAdd.addEventListener('submit', function (event) {
@@ -44,7 +42,7 @@ formAdd.addEventListener('submit', function (event) {
 });
 
 
-popupAddPhoto.querySelector('.popup__close-button').addEventListener('click', () => closePopup((popupAddPhoto)));
+popupAddPhoto.querySelector('.popup__close-button').addEventListener('click', () => closePopup(popupAddPhoto));
 
 popupPreview.querySelector('.popup-preview__close-button').addEventListener('click', () => closePopup(popupPreview));
 popUpPreviewCaption = popupPreview.querySelector('.popup-preview__photo-caption');
@@ -107,10 +105,10 @@ function createCard(card) {
         deleteButton.closest('.elements__card').remove();
     });
     img.addEventListener('click', function() {
-        openPopup(popupPreview);
         popUpPreviewCaption.textContent = card['name'];
         imgPopup.src = card['link'];
         imgPopup.alt = card['name'];
+        openPopup(popupPreview);
 
     });
     return newCard;
