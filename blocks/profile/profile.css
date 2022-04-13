@@ -3,7 +3,7 @@
     margin: 0 auto;
     padding-bottom: 50px;
     display: grid;
-    grid-template-columns: 120px auto  150px;
+    grid-template-columns: 120px minmax(0, 1fr)  150px;
 }
 
 @media screen and (max-width: 907px) {
