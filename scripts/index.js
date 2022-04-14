@@ -45,7 +45,7 @@ formAdd.addEventListener('submit', function (event) {
 popupAddPhoto.querySelector('.popup__close-button').addEventListener('click', () => closePopup(popupAddPhoto));
 
 popupPreview.querySelector('.popup-preview__close-button').addEventListener('click', () => closePopup(popupPreview));
-popUpPreviewCaption = popupPreview.querySelector('.popup-preview__photo-caption');
+const popUpPreviewCaption = popupPreview.querySelector('.popup-preview__photo-caption');
 const imgPopup = popupPreview.querySelector('.popup-preview__image');
 
 function openPopup(popup) {
