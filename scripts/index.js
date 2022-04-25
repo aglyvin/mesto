@@ -50,6 +50,13 @@ const imgPopup = popupPreview.querySelector('.popup-preview__image');
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    popup.addEventListener('click', (e) => {
+        if(e.target == popup) {
+            closePopup(popup);
+        }
+    });
+
+    toggleButton(popup.querySelector('form'), popup.querySelector('button'));
 }
 
 function closePopup(popup) {
@@ -116,4 +123,11 @@ function createCard(card) {
 
 initialCards.forEach((item) => {
     renderCard(item);
+});
+
+document.addEventListener('keydown', (e) => {
+    const openedPopup = document.querySelector('.popup_opened');
+    if(openedPopup && e.code == 'Escape') {
+        closePopup(openedPopup);
+    }
 });

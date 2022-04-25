@@ -5,20 +5,16 @@ function enableValidation(config) {
     inputs.forEach(element => {
         element.addEventListener('input', (event) => handleFormInput(event, form, config));
     });
-
-    form.addEventListener('submit' , event => handleFormSubmit(event));
-    toggleButton(form, config);
 }
 
-function toggleButton(form, config) {
+function toggleButtonByConfig(form, config) {
     const button = form.querySelector(config.buttonSelector);
+    toggleButtonByConfig(form, button);
+}
+
+function toggleButton(form, button) {
     button.disabled = !form.checkValidity();
     button.classList.toggle('popup__save-button_disabled', !form.checkValidity());
-
-}
-
-function handleFormSubmit(event) {
-    event.preventDefault();
 }
 
 function handleFormInput(event, form, config) {
@@ -29,7 +25,7 @@ function handleFormInput(event, form, config) {
     } else {
         errorNode.textContent = input.validationMessage;
     }
-    toggleButton(form, config);
+    toggleButtonByConfig(form, config);
 
 }
 
