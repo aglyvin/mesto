@@ -30,7 +30,6 @@ const photoLink = formAdd.querySelector('.popup__input[name=photo-link]');
 document.querySelector('.profile__add-button').addEventListener('click', () => {
     photoName.value = '';
     photoLink.value = '';
-    // popup.querySelector('.popup__container').append(formAdd);
     openPopup(popupAddPhoto);
 });
 
@@ -55,8 +54,7 @@ function openPopup(popup) {
             closePopup(popup);
         }
     });
-
-    toggleButton(popup.querySelector('form'), popup.querySelector('button'));
+    validateForm(popup.querySelector('form'), config);
 }
 
 function closePopup(popup) {
