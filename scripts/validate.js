@@ -2,7 +2,7 @@ function enableValidation(config) {
     document.querySelectorAll(config.formSelector).forEach(form => {
         const inputs = form.querySelectorAll(config.inputSelector); 
         inputs.forEach(element => {
-            element.addEventListener('input', (event) => validateFormInput(form, event.target, config)(event, form, config));
+            element.addEventListener('input', (event) => validateFormInput(form, event.target, config));
         });
     });
 }
