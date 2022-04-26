@@ -30,7 +30,6 @@ const photoLink = formAdd.querySelector('.popup__input[name=photo-link]');
 document.querySelector('.profile__add-button').addEventListener('click', () => {
     photoName.value = '';
     photoLink.value = '';
-    // popup.querySelector('.popup__container').append(formAdd);
     openPopup(popupAddPhoto);
 });
 
@@ -50,6 +49,12 @@ const imgPopup = popupPreview.querySelector('.popup-preview__image');
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    popup.addEventListener('click', (e) => {
+        if(e.target == popup) {
+            closePopup(popup);
+        }
+    });
+    validateForm(popup.querySelector('form'), config);
 }
 
 function closePopup(popup) {
@@ -116,4 +121,11 @@ function createCard(card) {
 
 initialCards.forEach((item) => {
     renderCard(item);
+});
+
+document.addEventListener('keydown', (e) => {
+    const openedPopup = document.querySelector('.popup_opened');
+    if(openedPopup && e.code == 'Escape') {
+        closePopup(openedPopup);
+    }
 });
