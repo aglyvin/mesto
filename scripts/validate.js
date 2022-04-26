@@ -30,9 +30,14 @@ function validateFormInput(form, input, config) {
     toggleButton(form, config);
 }
 
-function validateForm(form, config) {
-    form.querySelectorAll(config.inputSelector).forEach(input => {
-        validateFormInput(form, input, config);
+function clearErrors(form, config) {
+    if (!form) return;
+    form.querySelectorAll("." + config.errorClass).forEach(input => {
+        input.classList.remove(config.inputErrorClass);
+    });
+
+    form.querySelectorAll("." + config.errorClass).forEach(error => {
+        error.textContent = '';
     });
     toggleButton(form, config);
 }
