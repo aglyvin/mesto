@@ -47,11 +47,12 @@ formAdd.addEventListener('submit', function (event) {
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     clearErrors(popup.querySelector('form'), config);
-    document.addEventListener('keydown', (e) => handleKeyDown(e));
+    document.addEventListener('keydown', handleKeyDown);
 }
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', handleKeyDown);
 }
 
 function renderCard(card) {
@@ -94,7 +95,6 @@ function handleKeyDown(event) {
     const openedPopup = document.querySelector('.popup_opened');
     if(openedPopup && event.code == 'Escape') {
         closePopup(openedPopup);
-        document.removeEventListener('keydown', handleKeyDown);
     }
 }
 
