@@ -1,3 +1,5 @@
+import {Card} from './Card.js'
+
 const profileEditButton = document.querySelector('.profile__edit-button');
 const popupEditProfile = document.querySelector('.popup-edit-profile');
 const popupPreview = document.querySelector('.popup-preview');
@@ -16,6 +18,7 @@ profileEditButton.addEventListener('click', () => {
     popupAbout.value = profileAbout.textContent;
     openPopup(popupEditProfile);
 });
+
 formEditProfile.addEventListener('submit', function (event) {
     event.preventDefault();
     profileName.textContent = popupName.value;
