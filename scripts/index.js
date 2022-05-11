@@ -57,8 +57,6 @@ formAdd.addEventListener('submit', function (event) {
     closePopup(popupAddPhoto);
 });
 
-popupAddPhoto.querySelector('.popup__close-button').addEventListener('click', () => closePopup(popupAddPhoto));
-
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', handleKeyDown);

@@ -4,7 +4,6 @@ export class FormValidator {
         this._formElement = formElement;
         this._inputList = this._formElement.querySelectorAll(this._config.inputSelector);
         this._submitButton = this._formElement.querySelector(this._config.buttonSelector);
-        this._errorSpans = this._formElement.querySelectorAll('.popup__error');
     }
 
     enableValidation() {
