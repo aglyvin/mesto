@@ -13,6 +13,11 @@ const formAdd = popupAddPhoto.querySelector('.popup__form');
 const photoName = formAdd.querySelector('.popup__input[name=photo-name]');
 const photoLink = formAdd.querySelector('.popup__input[name=photo-link]');
 const cardsContainer = document.querySelector('.elements');
+const popupPreview = document.querySelector('.popup-preview');
+const imgPopup = popupPreview.querySelector('.popup-preview__image');
+const popUpPreviewCaption = popupPreview.querySelector('.popup-preview__photo-caption');
+const popups = document.querySelectorAll('.popup')
+
 
 const config = {
     formSelector: '.popup__form',
@@ -26,6 +31,7 @@ const config = {
 profileEditButton.addEventListener('click', () => {
     popupName.value = profileName.textContent;
     popupAbout.value = profileAbout.textContent;
+    formValidators['edit-profile'].resetValidation();
     openPopup(popupEditProfile);
 });
 
@@ -40,6 +46,7 @@ formEditProfile.addEventListener('submit', function (event) {
 document.querySelector('.profile__add-button').addEventListener('click', () => {
     photoName.value = '';
     photoLink.value = '';
+    formValidators['add-place'].resetValidation();
     openPopup(popupAddPhoto);
 });
 
@@ -52,27 +59,8 @@ formAdd.addEventListener('submit', function (event) {
 
 popupAddPhoto.querySelector('.popup__close-button').addEventListener('click', () => closePopup(popupAddPhoto));
 
-function toggleButton(form, config) {
-    const button = form.querySelector(config.buttonSelector);
-    button.disabled = !form.checkValidity();
-    button.classList.toggle(config.inactiveButtonClass, !form.checkValidity());
-}
-
-function clearErrors(form, config) {
-    if (!form) return;
-    form.querySelectorAll("." + config.inputErrorClass).forEach(input => {
-        input.classList.remove(config.inputErrorClass);
-    });
-
-    form.querySelectorAll("." + config.errorClass).forEach(error => {
-        error.textContent = '';
-    });
-    toggleButton(form, config);
-}
-
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-    clearErrors(popup.querySelector('form'), config);
     document.addEventListener('keydown', handleKeyDown);
 }
 
@@ -86,42 +74,46 @@ function renderCard(card) {
 }
 
 function createCard(card) {
-    let newCard = new Card(card.name, card.link, '#card');
+    const newCard = new Card(card.name, card.link, '#card', handleCardClick);
     return newCard.generateCard();
 }
 
-function addClickHandler(popup) {
-    popup.addEventListener('click', (e, popup) => {
-        if(e.target == e.currentTarget) {
-            closePopup(e.target);
-        }
-    });
-}
-
 function handleKeyDown(event) {
-    const openedPopup = document.querySelector('.popup_opened');
-    if(openedPopup && event.code == 'Escape') {
-        closePopup(openedPopup);
+    if (event.code == 'Escape') {
+        const openedPopup = document.querySelector('.popup_opened');
+        openedPopup && closePopup(openedPopup);
     }
 }
 
-initialCards.forEach((item) => {
-    renderCard(item);
-});
-
-function enableValidation(config) {
-    document.querySelectorAll(config.formSelector).forEach(form => {
-        let formValidator = new FormValidator(config, form);
-        formValidator.enableValidation();
-    });
+function handleCardClick(name, link) {
+    popUpPreviewCaption.textContent = name;
+    imgPopup.src = link;
+    imgPopup.alt = name;
+    openPopup(popupPreview);
 }
 
+initialCards.forEach(renderCard);
 
+const formValidators = {};
+const enableValidation = (config) => {
+    const formList = Array.from(document.querySelectorAll(config.formSelector));
+    formList.forEach((formElement) => {
+        const validator = new FormValidator(config, formElement);
+        const formName = formElement.getAttribute('name');
+        formValidators[formName] = validator;
+        validator.enableValidation();
+    });
+};
 
-addClickHandler(popupAddPhoto);
-addClickHandler(popupEditProfile);
-popupAddPhoto.querySelector('.popup__close-button').addEventListener('click', () => closePopup(popupAddPhoto));
-popupEditProfile.querySelector('.popup__close-button').addEventListener('click', () => closePopup(popupEditProfile));
-
+popups.forEach((popup) => {
+    popup.addEventListener('mousedown', (evt) => {
+        if (evt.target.classList.contains('popup_opened')) {
+            closePopup(popup)
+        }
+        if (evt.target.classList.contains('popup__close-button')) {
+          closePopup(popup)
+        }
+    })
+})
 
 enableValidation(config);

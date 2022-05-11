@@ -1,8 +1,9 @@
 export class Card {
-    constructor(name, link, selector) {
+    constructor(name, link, selector, handleCardClick) {
         this._name = name;
         this._link = link;
         this._selector = selector;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplate() {
@@ -15,6 +16,8 @@ export class Card {
 
     generateCard() {
         this._element = this._getTemplate();
+        this._likeButton = this._element.querySelector('.elements__like-button');
+        this._deleteButton = this._element.querySelector('.elements__delete-button');
 
         this._image = this._element.querySelector('.elements__image');
         this._image.src = this._link;
@@ -27,11 +30,9 @@ export class Card {
     }
 
     _setEventListeners() {
-        this._likeButton = this._element.querySelector('.elements__like-button');
         this._likeButton.addEventListener('click', () => this._handleLikeButtonClick());
-        this._deleteButton = this._element.querySelector('.elements__delete-button');
         this._deleteButton.addEventListener('click', () => this._handleDeleteButtonClick());
-        this._image.addEventListener('click', () => this._handleImageClick());
+        this._image.addEventListener('click', () => this._handleCardClick(this._name, this._link));
     }
 
     _handleLikeButtonClick() {   
@@ -42,15 +43,4 @@ export class Card {
         this._deleteButton.closest('.elements__card').remove();
     }
 
-    _handleImageClick() {
-        const popupPreview = document.querySelector('.popup-preview');
-        popupPreview.querySelector('.popup-preview__close-button').addEventListener('click', () => popupPreview.classList.remove('popup_opened'));
-
-        const popUpPreviewCaption = popupPreview.querySelector('.popup-preview__photo-caption');
-        const imgPopup = popupPreview.querySelector('.popup-preview__image');
-        popUpPreviewCaption.textContent = this._name;
-        imgPopup.src = this._link;
-        imgPopup.alt = this._name;
-        popupPreview.classList.add('popup_opened');
-    }
 }
