@@ -3,8 +3,8 @@ export default class UserInfo {
     _userInfoElem;
 
     constructor(nameSelector, userInfoSelector) {
-        this._nameElem = document.querySelector('.profile__name');
-        this._userInfoElem = document.querySelector('.profile__caption');
+        this._nameElem = document.querySelector(nameSelector);
+        this._userInfoElem = document.querySelector(userInfoSelector);
 
     }
 

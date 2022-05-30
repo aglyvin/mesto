@@ -5,14 +5,17 @@ import { initialCards } from '../utils/initialCards.js';
 import { Section } from './Section.js';
 import PopupWithImage from './PopupWithImage.js';
 import PopupWithForm from './PopupWithForm.js'
+import UserInfo from './UserInfo.js';
 
-// const profileEditButton = document.querySelector('.profile__edit-button');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const profileName = document.querySelector('.profile__name');
+const profileAbout = document.querySelector('.profile__caption');
 // const popupEditProfile = document.querySelector('.popup-edit-profile');
 const popupAddPhoto = document.querySelector('.popup-add-photo');
 
 // const formEditProfile = popupEditProfile.querySelector('.popup__form');
-const popupName = formEditProfile.querySelector('.popup__input[name=input-name]');
-const popupAbout = formEditProfile.querySelector('.popup__input[name=input-about]');
+// const popupName = formEditProfile.querySelector('.popup__input[name=input-name]');
+// const popupAbout = formEditProfile.querySelector('.popup__input[name=input-about]');
 const formAdd = popupAddPhoto.querySelector('.popup__form');
 const photoName = formAdd.querySelector('.popup__input[name=photo-name]');
 const photoLink = formAdd.querySelector('.popup__input[name=photo-link]');
@@ -32,27 +35,32 @@ const config = {
 };
 
 
+const userInfo = new UserInfo('.profile__name', '.profile__caption').getUserInfo();
 
-const popupEditProfile = new PopupWithForm('.profile__edit-button', (event) => {
+const popupEditProfile = new PopupWithForm('.popup-edit-profile', setProfile);
+
+function setProfile(event) {
     event.preventDefault();
-    profileName.textContent = popupName.value;
-    profileAbout.textContent = popupAbout.value;
+    console.log(this)
+    const values = this._getInputValues();
+    userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
     this.close();
-});
+}
 
 profileEditButton.addEventListener('click', () => {
-    popupName.value = profileName.textContent;
-    popupAbout.value = profileAbout.textContent;
-    formValidators['edit-profile'].resetValidation();
-    openPopup(popupEditProfile);
+    popupEditProfile.open({'input-name': userInfo.name, 'input-about': userInfo.about});
+    // popupName.value = profileName.textContent;
+    // popupAbout.value = profileAbout.textContent;
+    // formValidators['edit-profile'].resetValidation();
+    // openPopup(popupEditProfile);
 });
 
-formEditProfile.addEventListener('submit', (event) => {
-    event.preventDefault();
-    profileName.textContent = popupName.value;
-    profileAbout.textContent = popupAbout.value;
-    closePopup(popupEditProfile);
-});
+// formEditProfile.addEventListener('submit', (event) => {
+//     event.preventDefault();
+//     profileName.textContent = popupName.value;
+//     profileAbout.textContent = popupAbout.value;
+//     closePopup(popupEditProfile);
+// });
 
 
 document.querySelector('.profile__add-button').addEventListener('click', () => {
@@ -69,16 +77,6 @@ formAdd.addEventListener('submit', function (event) {
     closePopup(popupAddPhoto);
 });
 
-// function openPopup(popup) {
-//     popup.classList.add('popup_opened');
-//     document.addEventListener('keydown', handleKeyDown);
-// }
-
-// function closePopup(popup) {
-//     popup.classList.remove('popup_opened');
-//     document.removeEventListener('keydown', handleKeyDown);
-// }
-
 const section = new Section(
     {
         items: initialCards,
@@ -92,13 +90,6 @@ function createCard(card) {
     const newCard = new Card(card, '#card', handleCardClick);
     return newCard.generateCard();
 }
-
-// function handleKeyDown(event) {
-//     if (event.code == 'Escape') {
-//         const openedPopup = document.querySelector('.popup_opened');
-//         openedPopup && closePopup(openedPopup);
-//     }
-// }
 
 function handleCardClick(card) {
     popupPreview.open(card);
@@ -116,16 +107,5 @@ const enableValidation = (config) => {
         validator.enableValidation();
     });
 };
-
-// popups.forEach((popup) => {
-//     popup.addEventListener('mousedown', (evt) => {
-//         if (evt.target.classList.contains('popup_opened')) {
-//             closePopup(popup)
-//         }
-//         if (evt.target.classList.contains('popup__close-button')) {
-//           closePopup(popup)
-//         }
-//     })
-// })
 
 enableValidation(config);

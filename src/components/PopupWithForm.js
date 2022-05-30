@@ -7,8 +7,9 @@ export default class PopupWithImage extends Popup {
     constructor (selector, submit) {
         super(selector);
         this._submit = submit;
-        this._form = this._popup.querySelector('.popup__form');
-        this._inputElements = this._form.querySelectorAll('.input');
+        this._form = document.querySelector('.popup__form');
+        this._inputElements = Array.from(this._form.querySelectorAll('input'));
+        console.log(this._getInputValues());
     }
 
     _getInputValues() {
@@ -19,13 +20,25 @@ export default class PopupWithImage extends Popup {
         return res;
     }
 
+    _setInputValues(inputs) {
+        this._inputElements.forEach(element => {
+            element.value = inputs[element.name];
+        });
+    }
+
     setEventListeners() {
         super.setEventListeners();
-        this._form.addEventListener(this._submit);
+        this._form.addEventListener('submit', this._submit);
     }
 
     close() {
         super.close();
         this._inputElements.forEach(el => el.value = '');
+    }
+
+    open( inputs = []) {
+        this._setInputValues(inputs);
+        super.open();
+
     }
 }
