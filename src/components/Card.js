@@ -40,7 +40,8 @@ export class Card {
     }
 
     _handleDeleteButtonClick() {
-        this._deleteButton.closest('.elements__card').remove();
+        this._element.remove();
+        this._element = null;
     }
 
 }

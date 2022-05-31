@@ -68,7 +68,6 @@ function handleCardClick(card) {
     popupPreview.open(card);
 }
 
-
 const formValidators = {};
 
 const enableValidation = (config) => {

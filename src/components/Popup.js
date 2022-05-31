@@ -1,5 +1,4 @@
 export class Popup {
-    _popup;
     constructor (selector) {
         this._popup = document.querySelector(selector);
     }

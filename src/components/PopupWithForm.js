@@ -1,9 +1,6 @@
 import { Popup } from "./Popup";
 
 export default class PopupWithForm extends Popup {
-    _submit;
-    _form;
-    _inputElements;
     constructor (selector, submit) {
         super(selector);
         this._submit = submit.bind(this);
