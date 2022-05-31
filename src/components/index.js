@@ -8,22 +8,10 @@ import PopupWithForm from './PopupWithForm.js'
 import UserInfo from './UserInfo.js';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
-const profileName = document.querySelector('.profile__name');
-const profileAbout = document.querySelector('.profile__caption');
-// const popupEditProfile = document.querySelector('.popup-edit-profile');
-const popupAddPhoto = document.querySelector('.popup-add-photo');
-
-// const formEditProfile = popupEditProfile.querySelector('.popup__form');
-// const popupName = formEditProfile.querySelector('.popup__input[name=input-name]');
-// const popupAbout = formEditProfile.querySelector('.popup__input[name=input-about]');
-const formAdd = popupAddPhoto.querySelector('.popup__form');
-const photoName = formAdd.querySelector('.popup__input[name=photo-name]');
-const photoLink = formAdd.querySelector('.popup__input[name=photo-link]');
+// const photoName = formAdd.querySelector('.popup__input[name=photo-name]');
+// const photoLink = formAdd.querySelector('.popup__input[name=photo-link]');
 const cardsContainerSelector = '.elements';
-// const popupPreviewSelector = '.popup-preview';
 const popupPreview = new PopupWithImage('.popup-preview');
-// const popups = document.querySelectorAll('.popup')
-
 
 const config = {
     formSelector: '.popup__form',
@@ -34,39 +22,43 @@ const config = {
     errorClass: 'popup__error_visible'
 };
 
-
-
-const userInfo = new UserInfo('.profile__name', '.profile__caption').getUserInfo();
+// const user = new UserInfo('.profile__name', '.profile__caption').getUserInfo();
 const popupEditProfile = new PopupWithForm('.popup-edit-profile', setProfile);
 
+const userInfo = new UserInfo('.profile__name', '.profile__caption');
 function setProfile(event) {
     event.preventDefault();
     const values = this._getInputValues();
-    const userInfo = new UserInfo('.profile__name', '.profile__caption');
-    console.log(userInfo)
     userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
     this.close();
 }
 
 profileEditButton.addEventListener('click', () => {
-    popupEditProfile.open({'input-name': userInfo.name, 'input-about': userInfo.about});
+    const user = userInfo.getUserInfo();
+    popupEditProfile.open({'input-name': user.name, 'input-about': user.about});
 });
 
+const popupAddPhoto = new PopupWithForm('.popup-add-photo', addPhoto);
 
+function addPhoto(event) {
+    event.preventDefault();
+    const values = this._getInputValues();
+    const newCard = {name: values["photo-name"], link: values["photo-link"] };
+    section.addItem(newCard);
+    this.close();
+}
 
 document.querySelector('.profile__add-button').addEventListener('click', () => {
-    photoName.value = '';
-    photoLink.value = '';
     formValidators['add-place'].resetValidation();
-    openPopup(popupAddPhoto);
+    popupAddPhoto.open({'photo-name': '', 'photo-link': ''});
 });
 
-formAdd.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const newCard = {name: photoName.value, link: photoLink.value};
-    renderCard(newCard);
-    closePopup(popupAddPhoto);
-});
+// formAdd.addEventListener('submit', function (event) {
+//     event.preventDefault();
+//     const newCard = {name: photoName.value, link: photoLink.value};
+//     renderCard(newCard);
+//     closePopup(popupAddPhoto);
+// });
 
 const section = new Section(
     {
