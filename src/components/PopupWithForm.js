@@ -1,15 +1,16 @@
 import { Popup } from "./Popup";
 
-export default class PopupWithImage extends Popup {
+export default class PopupWithForm extends Popup {
     _submit;
     _form;
     _inputElements;
     constructor (selector, submit) {
         super(selector);
-        this._submit = submit;
+        this._submit = submit.bind(this);
+        // console.log(this._submit)
         this._form = document.querySelector('.popup__form');
         this._inputElements = Array.from(this._form.querySelectorAll('input'));
-        console.log(this._getInputValues());
+
     }
 
     _getInputValues() {

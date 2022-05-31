@@ -35,32 +35,23 @@ const config = {
 };
 
 
-const userInfo = new UserInfo('.profile__name', '.profile__caption').getUserInfo();
 
+const userInfo = new UserInfo('.profile__name', '.profile__caption').getUserInfo();
 const popupEditProfile = new PopupWithForm('.popup-edit-profile', setProfile);
 
 function setProfile(event) {
     event.preventDefault();
-    console.log(this)
     const values = this._getInputValues();
+    const userInfo = new UserInfo('.profile__name', '.profile__caption');
+    console.log(userInfo)
     userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
     this.close();
 }
 
 profileEditButton.addEventListener('click', () => {
     popupEditProfile.open({'input-name': userInfo.name, 'input-about': userInfo.about});
-    // popupName.value = profileName.textContent;
-    // popupAbout.value = profileAbout.textContent;
-    // formValidators['edit-profile'].resetValidation();
-    // openPopup(popupEditProfile);
 });
 
-// formEditProfile.addEventListener('submit', (event) => {
-//     event.preventDefault();
-//     profileName.textContent = popupName.value;
-//     profileAbout.textContent = popupAbout.value;
-//     closePopup(popupEditProfile);
-// });
 
 
 document.querySelector('.profile__add-button').addEventListener('click', () => {
