@@ -15,9 +15,10 @@ module.exports = {
   devtool: "source-map",
   mode: 'development',
   devServer: {
-    static: path.resolve(__dirname, './dist'),
+    static: {directory: path.join(__dirname, './dist')},
     open: true,
     compress: true,
+    hot: true,
     port: 8080
   },
   module: {
