@@ -1,11 +1,11 @@
 import '../pages/index.css';
-import {Card} from './Card.js';
-import { FormValidator } from "./FormValidator.js";
+import {Card} from '../components/Card.js';
+import { FormValidator } from "../components/FormValidator.js";
 import { initialCards } from '../utils/initialCards.js';
-import { Section } from './Section.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js'
-import UserInfo from './UserInfo.js';
+import { Section } from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js'
+import UserInfo from '../components/UserInfo.js';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const cardsContainerSelector = '.elements';
@@ -20,14 +20,11 @@ const config = {
     errorClass: 'popup__error_visible'
 };
 
-const popupEditProfile = new PopupWithForm('.popup-edit-profile', setProfile);
+const popupEditProfile = new PopupWithForm('.popup-edit-profile', (values) => setProfile(values));
 
 const userInfo = new UserInfo('.profile__name', '.profile__caption');
-function setProfile(event) {
-    event.preventDefault();
-    const values = this._getInputValues();
+function setProfile(values) {
     userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
-    this.close();
 }
 
 profileEditButton.addEventListener('click', () => {
@@ -35,11 +32,9 @@ profileEditButton.addEventListener('click', () => {
     popupEditProfile.open({'input-name': user.name, 'input-about': user.about});
 });
 
-const popupAddPhoto = new PopupWithForm('.popup-add-photo', addPhoto);
+const popupAddPhoto = new PopupWithForm('.popup-add-photo', (values) => addPhoto(values));
 
-function addPhoto(event) {
-    event.preventDefault();
-    const values = this._getInputValues();
+function addPhoto(values) {
     const newCard = {name: values["photo-name"], link: values["photo-link"] };
     section.addItem(newCard);
     this.close();
