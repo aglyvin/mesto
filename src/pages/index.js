@@ -17,13 +17,14 @@ const config = {
     buttonSelector: '.popup__save-button',
     inactiveButtonClass: 'popup__save-button_disabled',
     inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
 };
 
 const popupEditProfile = new PopupWithForm('.popup-edit-profile', (values) => setProfile(values));
+popupEditProfile.setEventListeners();
 
 const userInfo = new UserInfo('.profile__name', '.profile__caption');
 function setProfile(values) {
+    console.log(values);
     userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
 }
 
@@ -33,11 +34,11 @@ profileEditButton.addEventListener('click', () => {
 });
 
 const popupAddPhoto = new PopupWithForm('.popup-add-photo', (values) => addPhoto(values));
+popupAddPhoto.setEventListeners();
 
 function addPhoto(values) {
     const newCard = {name: values["photo-name"], link: values["photo-link"] };
     section.addItem(newCard);
-    this.close();
 }
 
 document.querySelector('.profile__add-button').addEventListener('click', () => {

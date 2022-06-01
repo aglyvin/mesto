@@ -25,7 +25,6 @@ export class FormValidator {
         } else {
             errorNode.textContent = input.validationMessage;
         }
-        errorNode.classList.toggle(this._config.errorClass, invalid);
         input.classList.toggle(this._config.inputErrorClass, invalid);
     }
 

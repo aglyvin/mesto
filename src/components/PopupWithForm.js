@@ -39,6 +39,5 @@ export default class PopupWithForm extends Popup {
     open( inputs = []) {
         this._setInputValues(inputs);
         super.open();
-
     }
 }
