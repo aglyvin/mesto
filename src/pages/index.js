@@ -10,6 +10,9 @@ import UserInfo from '../components/UserInfo.js';
 const profileEditButton = document.querySelector('.profile__edit-button');
 const cardsContainerSelector = '.elements';
 const popupPreview = new PopupWithImage('.popup-preview');
+const token = '2f9c82fe-9e77-4bc3-9e57-b3177cfe4c33';
+const url = 'https://nomoreparties.co/v1/cohort-43';
+
 popupPreview.setEventListeners();
 
 const config = {
@@ -25,7 +28,6 @@ popupEditProfile.setEventListeners();
 
 const userInfo = new UserInfo('.profile__name', '.profile__caption');
 function setProfile(values) {
-    console.log(values);
     userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
 }
 
@@ -36,6 +38,39 @@ profileEditButton.addEventListener('click', () => {
 
 const popupAddPhoto = new PopupWithForm('.popup-add-photo', (values) => addPhoto(values));
 popupAddPhoto.setEventListeners();
+
+function getUserInfoFromServer() {
+    fetch(url + '/users/me', {
+        headers: {
+          authorization: token
+        }
+    })
+        .then((res) => {return res.json();
+        })
+        .then((data) => {
+            userInfo.setUserInfo(data);
+        })
+        .catch((err) => {
+            console.log('Ошибка. Запрос не выполнен: ', err);
+        })
+}
+
+function getInitCardsFromServer() {
+    const items = [];
+    fetch(url + '/cards', {
+        headers: {
+          authorization: token
+        }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            data.forEach(item => items.push(item));
+            return items;
+        })
+        .catch((err) => {
+            console.log('Ошибка. Запрос не выполнен: ', err);
+        })
+}
 
 function addPhoto(values) {
     const newCard = {name: values["photo-name"], link: values["photo-link"] };
@@ -49,7 +84,7 @@ document.querySelector('.profile__add-button').addEventListener('click', () => {
 
 const section = new Section(
     {
-        items: initialCards,
+        items: getInitCardsFromServer(),
         renderer: createCard
     },
     cardsContainerSelector
@@ -78,3 +113,4 @@ const enableValidation = (config) => {
 };
 
 enableValidation(config);
+getUserInfoFromServer();
