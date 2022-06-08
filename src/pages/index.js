@@ -1,17 +1,18 @@
 import '../pages/index.css';
 import {Card} from '../components/Card.js';
 import { FormValidator } from "../components/FormValidator.js";
-import { initialCards } from '../utils/initialCards.js';
 import { Section } from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const cardsContainerSelector = '.elements';
 const popupPreview = new PopupWithImage('.popup-preview');
 const token = '2f9c82fe-9e77-4bc3-9e57-b3177cfe4c33';
 const url = 'https://nomoreparties.co/v1/cohort-43';
+const api = new Api('https://nomoreparties.co/v1/cohort-43', '2f9c82fe-9e77-4bc3-9e57-b3177cfe4c33');
 
 popupPreview.setEventListeners();
 
@@ -26,27 +27,23 @@ const config = {
 const popupEditProfile = new PopupWithForm('.popup-edit-profile', (values) => setProfile(values));
 popupEditProfile.setEventListeners();
 
-const userInfo = new UserInfo('.profile__name', '.profile__caption');
+const userInfo = new UserInfo('.profile__name', '.profile__caption', '.profile__avatar');
 function setProfile(values) {
     userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
+    api.setUserInfo(userInfo.getUserInfo());
 }
 
 profileEditButton.addEventListener('click', () => {
     const user = userInfo.getUserInfo();
     popupEditProfile.open({'input-name': user.name, 'input-about': user.about});
+
 });
 
 const popupAddPhoto = new PopupWithForm('.popup-add-photo', (values) => addPhoto(values));
 popupAddPhoto.setEventListeners();
 
 function getUserInfoFromServer() {
-    fetch(url + '/users/me', {
-        headers: {
-          authorization: token
-        }
-    })
-        .then((res) => {return res.json();
-        })
+    api.getUserInfo()
         .then((data) => {
             userInfo.setUserInfo(data);
         })
@@ -64,12 +61,14 @@ function getInitCardsFromServer() {
         })
         .then((res) => res.json())
         .then((data) => {
-            data.forEach(item => items.push(item));
-            return items;
+            data.forEach(item => {
+                section.addItem(item);
+            });
         })
         .catch((err) => {
             console.log('Ошибка. Запрос не выполнен: ', err);
         })
+        return items;
 }
 
 function addPhoto(values) {
@@ -83,13 +82,10 @@ document.querySelector('.profile__add-button').addEventListener('click', () => {
 });
 
 const section = new Section(
-    {
-        items: getInitCardsFromServer(),
-        renderer: createCard
-    },
+    createCard,
     cardsContainerSelector
 );
-section.renderAll();
+getInitCardsFromServer();
 
 function createCard(card) {
     const newCard = new Card(card, '#card', handleCardClick);
