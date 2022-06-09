@@ -110,3 +110,6 @@ const enableValidation = (config) => {
 
 enableValidation(config);
 getUserInfoFromServer();
+// api.setAvatar('https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/CheHigh.jpg/411px-CheHigh.jpg')
+//     .then((data) => console.log(data))
+//     .catch((err) = console.log(err));

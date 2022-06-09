@@ -29,10 +29,32 @@ export default class Api {
                 name: name,
                 about: about
             })
-        });
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject('Ошибка: ' + res.status);
+            });
     }
 
-    setAvatar(avatar) {
-        return 
+    setAvatar(avatarUrl) {
+        return fetch('https://mesto.nomoreparties.co/v1/cohort-43/users/me/avatar', {
+            method: 'PATCH',
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                avatar: avatarUrl
+            })
+        })
+        .then(res => {
+            console.log(res)
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject('Ошибка: ' + res.status);
+        });
     }
 }   
