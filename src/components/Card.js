@@ -1,7 +1,8 @@
 export class Card {
-    constructor({ name, link }, selector, handleCardClick) {
+    constructor({ name, link, likes }, selector, handleCardClick) {
         this.name = name;
         this.link = link;
+        this.likes = likes;
         this._selector = selector;
         this._handleCardClick = handleCardClick;
     }
@@ -17,11 +18,13 @@ export class Card {
     generateCard() {
         this._element = this._getTemplate();
         this._likeButton = this._element.querySelector('.elements__like-button');
+        this._likeCount = this._element.querySelector('.elements__like-count');
         this._deleteButton = this._element.querySelector('.elements__delete-button');
 
         this._image = this._element.querySelector('.elements__image');
         this._image.src = this.link;
         this._image.alt = this.name;
+        this._likeCount = this.likes.length;
 
         this._element.querySelector('.elements__title').textContent = this.name;
         this._setEventListeners();

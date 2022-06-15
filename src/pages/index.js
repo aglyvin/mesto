@@ -46,6 +46,7 @@ function getUserInfoFromServer() {
     api.getUserInfo()
         .then((data) => {
             userInfo.setUserInfo(data);
+            console.log(data);
         })
         .catch((err) => {
             console.log('Ошибка. Запрос не выполнен: ', err);
@@ -73,7 +74,7 @@ function getInitCardsFromServer() {
 
 function addPhoto(values) {
     const newCard = {name: values["photo-name"], link: values["photo-link"] };
-    section.addItem(newCard);
+    api.addCard(newCard);
 }
 
 document.querySelector('.profile__add-button').addEventListener('click', () => {
@@ -85,6 +86,7 @@ const section = new Section(
     createCard,
     cardsContainerSelector
 );
+
 getInitCardsFromServer();
 
 function createCard(card) {
@@ -110,6 +112,3 @@ const enableValidation = (config) => {
 
 enableValidation(config);
 getUserInfoFromServer();
-// api.setAvatar('https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/CheHigh.jpg/411px-CheHigh.jpg')
-//     .then((data) => console.log(data))
-//     .catch((err) = console.log(err));
