@@ -1,23 +1,13 @@
 .profile__avatar {
     height: 120px;
     width: 120px;
-    border-radius: 50%;
-    background-size: cover;
     grid-column-start: 1;
     grid-column-end: 2;
-
-    background-color: #000;
-    src: url(../../../images/pencil.svg);
-
-}
-
-.profile__avatar:hover {
-    /* background-image: url(../../../images/pencil.svg);
+    background-image: url(../../../images/pencil.svg);
     background-position: center;
     background-size: 25px;
     background-repeat: no-repeat;
-    border-radius: 60px;
-    transition: opacity 0.5s ease-in-out; */
+    transition: opacity 0.5s ease-in-out;
 }
 
 @media screen and (max-width: 907px) {

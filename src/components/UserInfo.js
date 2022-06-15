@@ -14,9 +14,13 @@ export default class UserInfo {
         };
     }
 
-        setUserInfo( { name, about, avatar }) {
+    setUserInfo( { name, about, avatar }) {
         this._nameElem.textContent = name;
         this._userInfoElem.textContent = about;
-        this._avatarElem.src = avatar
+        this.setAvatar(avatar);
+    }
+
+    setAvatar(avatar) {
+        this._avatarElem.src = avatar;
     }
 }

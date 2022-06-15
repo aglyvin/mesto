@@ -13,7 +13,9 @@
   </header>
   <main class="main">
     <section class="profile">
-      <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватар" />
+      <div class="profile__avatar">
+        <img class="profile__image" src="<%=require('./images/avatar.jpg')%>" alt="Аватар" />
+      </div>
       <div class="profile__info">
         <div class="profile__name-container">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -42,6 +44,18 @@
         <span id="input-name-error" class="popup__error"></span>
         <input id="input-about" name="input-about" type="text" minlength="2" maxlength="200" class="popup__input" required/>
         <span id="input-about-error" class="popup__error"></span>
+        <button class="popup__save-button" type="submit">Сохранить</button>
+      </form>
+      <button class="popup__close-button " type="button"></button>
+    </div>
+  </div>
+
+  <div class="popup popup-change-avatar">
+    <div class="popup__container">
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form class="popup__form" name="change-avatar" novalidate>
+        <input name="input-url" id="input-url" type="url" placeholder="Ссылка на картинку" required class="popup__input"/>
+        <span id="input-url-error" class="popup__error"></span>
         <button class="popup__save-button" type="submit">Сохранить</button>
       </form>
       <button class="popup__close-button " type="button"></button>
@@ -83,5 +97,4 @@
     </li>
   </template>
 </body>
-
 </html>

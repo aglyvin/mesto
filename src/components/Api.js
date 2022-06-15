@@ -50,7 +50,6 @@ export default class Api {
             })
         })
         .then(res => {
-            console.log(res)
             if (res.ok) {
                 return res.json();
             }
