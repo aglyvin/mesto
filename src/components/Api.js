@@ -56,4 +56,22 @@ export default class Api {
             return Promise.reject('Ошибка: ' + res.status);
         });
     }
+
+    addCard( cardInfo ) {
+        return fetch('https://mesto.nomoreparties.co/v1/cohort-43/cards', {
+            method: 'POST',
+            headers: {
+                authorization: this._token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cardInfo)
+        })
+        .then(res => {
+            console.log(res)
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject('Ошибка: ' + res.status);
+        });
+    }
 }   

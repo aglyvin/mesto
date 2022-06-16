@@ -87,7 +87,7 @@ function getInitCardsFromServer() {
 
 function addPhoto(values) {
     const newCard = {name: values["photo-name"], link: values["photo-link"] };
-    section.addItem(newCard);
+    api.addCard(newCard);
 }
 
 document.querySelector('.profile__add-button').addEventListener('click', () => {
