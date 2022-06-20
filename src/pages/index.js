@@ -6,6 +6,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api';
+import PopupConfirm from '../components/PopupConfirm';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const changeAvatarButton = document.querySelector('.profile__avatar');
@@ -14,6 +15,7 @@ const popupPreview = new PopupWithImage('.popup-preview');
 const token = '2f9c82fe-9e77-4bc3-9e57-b3177cfe4c33';
 const url = 'https://nomoreparties.co/v1/cohort-43';
 const api = new Api('https://nomoreparties.co/v1/cohort-43', '2f9c82fe-9e77-4bc3-9e57-b3177cfe4c33');
+let userID;
 
 popupPreview.setEventListeners();
 
@@ -28,7 +30,7 @@ const config = {
 const popupEditProfile = new PopupWithForm('.popup-edit-profile', (values) => setProfile(values));
 popupEditProfile.setEventListeners();
 
-const userInfo = new UserInfo('.profile__name', '.profile__caption', '.profile__image');
+const userInfo = new UserInfo('.profile__name', '.profile__caption', '.profile__avatar');
 function setProfile(values) {
     userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
     api.setUserInfo(userInfo.getUserInfo());
@@ -60,6 +62,7 @@ function getUserInfoFromServer() {
     api.getUserInfo()
         .then((data) => {
             userInfo.setUserInfo(data);
+            userID = data["_id"];
         })
         .catch((err) => {
             console.log('Ошибка. Запрос не выполнен: ', err);
@@ -102,12 +105,26 @@ const section = new Section(
 getInitCardsFromServer();
 
 function createCard(card) {
-    const newCard = new Card(card, '#card', handleCardClick);
+    const newCard = new Card(card, '#card', handleCardClick, handleDeleteCardClick, userID);
     return newCard.generateCard();
 }
 
 function handleCardClick(card) {
     popupPreview.open(card);
+}
+
+const confirmDelete = new PopupConfirm('.popup-delete-card', (card) => {
+    api.deleteCard(card.id)
+    .then(() => {
+        card.deleteElement();
+    })
+    .catch((err) = console.log(err));
+});
+confirmDelete.setEventListeners();
+
+function handleDeleteCardClick(card) {
+
+    confirmDelete.open(card);
 }
 
 const formValidators = {};
