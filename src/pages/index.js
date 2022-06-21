@@ -118,7 +118,7 @@ const confirmDelete = new PopupConfirm('.popup-delete-card', (card) => {
     .then(() => {
         card.deleteElement();
     })
-    .catch((err) = console.log(err));
+    .catch((err) => console.log(err));
 });
 confirmDelete.setEventListeners();
 
