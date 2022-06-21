@@ -12,8 +12,6 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 const changeAvatarButton = document.querySelector('.profile__avatar');
 const cardsContainerSelector = '.elements';
 const popupPreview = new PopupWithImage('.popup-preview');
-const token = '2f9c82fe-9e77-4bc3-9e57-b3177cfe4c33';
-const url = 'https://nomoreparties.co/v1/cohort-43';
 const api = new Api('https://nomoreparties.co/v1/cohort-43', '2f9c82fe-9e77-4bc3-9e57-b3177cfe4c33');
 let userID;
 
@@ -30,10 +28,17 @@ const config = {
 const popupEditProfile = new PopupWithForm('.popup-edit-profile', (values) => setProfile(values));
 popupEditProfile.setEventListeners();
 
+
 const userInfo = new UserInfo('.profile__name', '.profile__caption', '.profile__avatar');
 function setProfile(values) {
     userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
-    api.setUserInfo(userInfo.getUserInfo());
+    popupEditProfile.setBusyStatus();
+    api.setUserInfo(userInfo.getUserInfo())
+        .then(() => popupEditProfile.resetBusyStatus())
+        .catch((err) => {
+            console.log('Ошибка. Запрос не выполнен: ', err)
+        .finally(() => popupEditProfile.resetBusyStatus());
+    })
 }
 
 profileEditButton.addEventListener('click', () => {
@@ -41,56 +46,62 @@ profileEditButton.addEventListener('click', () => {
     popupEditProfile.open({'input-name': user.name, 'input-about': user.about});
 
 });
+const popupChangeAvatarForm = new PopupWithForm('.popup-change-avatar', (values) => setAvatar(values['input-url']));
+
 changeAvatarButton.addEventListener('click', () => {
     popupChangeAvatarForm.open({'input-url': userInfo.getUserInfo().avatar});
 });
 
-const popupChangeAvatarForm = new PopupWithForm('.popup-change-avatar', (values) => setAvatar(values['input-url']));
 popupChangeAvatarForm.setEventListeners();
 
 function setAvatar(url) {
+    popupChangeAvatarForm.setBusyStatus();
     api.setAvatar(url)
         .then(() => {
             getUserInfoFromServer();
-        });
+        })
+        .catch((err) => {
+            console.log('Ошибка. Запрос не выполнен: ', err)
+        })
+        .finally(() => popupChangeAvatarForm.resetBusyStatus());
 }
 
 const popupAddPhoto = new PopupWithForm('.popup-add-photo', (values) => addPhoto(values));
 popupAddPhoto.setEventListeners();
 
 function getUserInfoFromServer() {
+    popupAddPhoto.setBusyStatus();
     api.getUserInfo()
         .then((data) => {
             userInfo.setUserInfo(data);
+            userInfo.setAvatar(data.avatar);
             userID = data["_id"];
+            popupAddPhoto.resetBusyStatus();
         })
         .catch((err) => {
             console.log('Ошибка. Запрос не выполнен: ', err);
         })
+        .finally(() => popupAddPhoto.resetBusyStatus());
 }
 
 function getInitCardsFromServer() {
-    const items = [];
-    fetch(url + '/cards', {
-        headers: {
-          authorization: token
-        }
-        })
-        .then((res) => res.json())
+    api.getCards()
         .then((data) => {
             data.forEach(item => {
                 section.addItem(item);
-            });
+            })
         })
         .catch((err) => {
             console.log('Ошибка. Запрос не выполнен: ', err);
-        })
-        return items;
+        });
 }
 
 function addPhoto(values) {
     const newCard = {name: values["photo-name"], link: values["photo-link"] };
-    api.addCard(newCard);
+
+    api.addCard(newCard)
+        .catch((err) => console.log('Ошибка. Запрос не выполнен: ', err))
+        .finally();
 }
 
 document.querySelector('.profile__add-button').addEventListener('click', () => {
@@ -114,8 +125,20 @@ function handleCardClick(card) {
 }
 
 function handleLikeClick(card) {
-    api.
-    card.addLike();
+    if (!card.hasUserLike()) {
+        api.likeCard(card.id)
+        .then((newCard) => { 
+            card.updateLikes(newCard.likes);
+        })
+        .catch((err) => console.log(err));
+    }
+    else {
+        api.dislikeCard(card.id)
+        .then((newCard) => { 
+            card.updateLikes(newCard.likes);
+        })
+        .catch((err) => console.log(err));
+    }
 }
 
 const confirmDelete = new PopupConfirm('.popup-delete-card', (card) => {

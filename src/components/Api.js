@@ -90,6 +90,44 @@ export default class Api {
     }
 
     likeCard(id) {
-        
+        return fetch(`https://mesto.nomoreparties.co/v1/cohort-43/cards/${id}/likes`, {
+            method: 'PUT',
+            headers: {
+                authorization: this._token
+            }
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject('Ошибка: ' + res.status);
+        });
+    }
+
+    dislikeCard(id) {
+        return fetch(`https://mesto.nomoreparties.co/v1/cohort-43/cards/${id}/likes`, {
+            method: 'DELETE',
+            headers: {
+                authorization: this._token
+            }
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            return Promise.reject('Ошибка: ' + res.status);
+        });
+    }
+
+    getCards() {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-43/cards`, {
+            headers: {
+              authorization: this._token
+            }
+        })
+        .then((res) => res.json())
+        .catch((err) => {
+            console.log('Ошибка. Запрос не выполнен: ', err.status);
+        })
     }
 }   
