@@ -105,12 +105,17 @@ const section = new Section(
 getInitCardsFromServer();
 
 function createCard(card) {
-    const newCard = new Card(card, '#card', handleCardClick, handleDeleteCardClick, userID);
+    const newCard = new Card(card, '#card', handleCardClick, handleDeleteCardClick, handleLikeClick, userID);
     return newCard.generateCard();
 }
 
 function handleCardClick(card) {
     popupPreview.open(card);
+}
+
+function handleLikeClick(card) {
+    api.
+    card.addLike();
 }
 
 const confirmDelete = new PopupConfirm('.popup-delete-card', (card) => {
