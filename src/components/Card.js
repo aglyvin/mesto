@@ -1,5 +1,5 @@
 export class Card {
-    constructor({ name, link, likes, owner, _id }, selector, handleCardClick, handleDeleteButtonClick, userId) {
+    constructor({ name, link, likes, owner, _id }, selector, handleCardClick, handleDeleteButtonClick, handleLikeClick, userId) {
         this.id = _id;
         this.name = name;
         this.link = link;
@@ -7,6 +7,7 @@ export class Card {
         this._userId = userId;
         this._selector = selector;
         this._handleCardClick = handleCardClick;
+        this._handleLikeClick = handleLikeClick;
         this._handleDeleteButtonClick = handleDeleteButtonClick;
         this._likeCount = likes.length;
         if (this._likeCount < 1) {
@@ -44,13 +45,14 @@ export class Card {
     }
 
     _setEventListeners() {
-        this._likeButton.addEventListener('click', () => this._handleLikeButtonClick());
+        this._likeButton.addEventListener('click', () => this._handleLikeClick(this));
         this._deleteButton.addEventListener('click', () => this._handleDeleteButtonClick(this));
         this._image.addEventListener('click', () => this._handleCardClick(this));
     }
 
-    _handleLikeButtonClick() {   
+    addLike(){
         this._likeButton.classList.toggle('elements__like-button_liked');
+
     }
 
     deleteElement() {
