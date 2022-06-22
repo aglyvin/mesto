@@ -7,41 +7,45 @@ import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api';
 import PopupConfirm from '../components/PopupConfirm';
+import { 
+    validationConfig,
+    profileEditButton,
+    changeAvatarButton,
+    cardsContainerSelector,
+    previewSelector,
+    editProfileSelector,
+    profileNameSelector,
+    profileCaptionSelector,
+    profileAvatarSelector,
+    changeAvatarSelector,
+    popupAddPhotoSelector,
+    addButtonSelector,
+    popupDeleteCardSelector
+} from '../utils/constants';
 
-const profileEditButton = document.querySelector('.profile__edit-button');
-const changeAvatarButton = document.querySelector('.profile__avatar');
-const cardsContainerSelector = '.elements';
-const popupPreview = new PopupWithImage('.popup-preview');
+const popupPreview = new PopupWithImage(previewSelector);
 const api = new Api('https://nomoreparties.co/v1/cohort-43', '2f9c82fe-9e77-4bc3-9e57-b3177cfe4c33');
 let userID;
 
 popupPreview.setEventListeners();
 
-const config = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    buttonSelector: '.popup__save-button',
-    inactiveButtonClass: 'popup__save-button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-};
-
-const popupEditProfile = new PopupWithForm('.popup-edit-profile', (values) => setProfile(values));
+const popupEditProfile = new PopupWithForm(editProfileSelector, (values) => setProfile(values));
 popupEditProfile.setEventListeners();
 
-
-const userInfo = new UserInfo('.profile__name', '.profile__caption', '.profile__avatar');
+const userInfo = new UserInfo(profileNameSelector, profileCaptionSelector, profileAvatarSelector);
 function setProfile(values) {
     popupEditProfile.setBusyStatus();
-    api.setUserInfo(userInfo.getUserInfo())
-    .then(() => {
-        popupEditProfile.resetBusyStatus();
-        userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
+    api.setUserInfo({"name": values['input-name'], "about": values['input-about']})
+    .then((data) => {
+        userInfo.setUserInfo(data);
         popupEditProfile.close();
     })
-        .catch((err) => {
-            console.log('Ошибка. Запрос не выполнен: ', err)
-        .finally(() => popupEditProfile.resetBusyStatus());
+    .catch((err) => {
+        console.log('Ошибка. Запрос не выполнен: ', err)
     })
+    .finally(() => { 
+        popupEditProfile.resetBusyStatus()
+    });
 }
 
 profileEditButton.addEventListener('click', () => {
@@ -49,7 +53,8 @@ profileEditButton.addEventListener('click', () => {
     popupEditProfile.open({'input-name': user.name, 'input-about': user.about});
 
 });
-const popupChangeAvatarForm = new PopupWithForm('.popup-change-avatar', (values) => setAvatar(values['input-url']));
+
+const popupChangeAvatarForm = new PopupWithForm(changeAvatarSelector, (values) => setAvatar(values['input-url']));
 
 changeAvatarButton.addEventListener('click', () => {
     popupChangeAvatarForm.open({'input-url': userInfo.getUserInfo().avatar});
@@ -61,7 +66,6 @@ function setAvatar(url) {
     popupChangeAvatarForm.setBusyStatus();
     api.setAvatar(url)
         .then(() => {
-            getUserInfoFromServer();
             userInfo.setAvatar(url);
             popupChangeAvatarForm.close();
         })
@@ -71,22 +75,23 @@ function setAvatar(url) {
         .finally(() => popupChangeAvatarForm.resetBusyStatus());
 }
 
-const popupAddPhoto = new PopupWithForm('.popup-add-photo', (values) => addPhoto(values));
+const popupAddPhoto = new PopupWithForm(popupAddPhotoSelector, (values) => addPhoto(values));
 popupAddPhoto.setEventListeners();
 
 function addPhoto(values) {
     const newCard = {name: values["photo-name"], link: values["photo-link"] };
-
+    popupAddPhoto.setBusyStatus();
     api.addCard(newCard)
         .then((data) => {
             section.addItem(data);
             popupAddPhoto.close();
         })
         .catch((err) => console.log('Ошибка. Запрос не выполнен: ', err))
-        .finally();
+        .finally(() => popupAddPhoto.resetBusyStatus());
 }
 
-document.querySelector('.profile__add-button').addEventListener('click', () => {
+
+document.querySelector(addButtonSelector).addEventListener('click', () => {
     formValidators['add-place'].resetValidation();
     popupAddPhoto.open({'photo-name': '', 'photo-link': ''});
 });
@@ -123,7 +128,8 @@ function handleLikeClick(card) {
     }
 }
 
-const confirmDelete = new PopupConfirm('.popup-delete-card', (card) => {
+
+const confirmDelete = new PopupConfirm(popupDeleteCardSelector, (card) => {
     api.deleteCard(card.id)
     .then(() => {
         card.deleteElement();
@@ -140,17 +146,17 @@ function handleDeleteCardClick(card) {
 
 const formValidators = {};
 
-const enableValidation = (config) => {
-    const formList = Array.from(document.querySelectorAll(config.formSelector));
+const enableValidation = (validationConfig) => {
+    const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
     formList.forEach((formElement) => {
-        const validator = new FormValidator(config, formElement);
+        const validator = new FormValidator(validationConfig, formElement);
         const formName = formElement.getAttribute('name');
         formValidators[formName] = validator;
         validator.enableValidation();
     });
 };
 
-enableValidation(config);
+enableValidation(validationConfig);
 Promise.all([api.getUserInfo(), api.getCards()])
     .then(([userData, cards]) => {
         userInfo.setUserInfo(userData);
