@@ -5,14 +5,13 @@ import { Section } from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js';
-import Api from '../components/Api';
+
 import PopupConfirm from '../components/PopupConfirm';
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const changeAvatarButton = document.querySelector('.profile__avatar');
 const cardsContainerSelector = '.elements';
 const popupPreview = new PopupWithImage('.popup-preview');
-const api = new Api('https://nomoreparties.co/v1/cohort-43', '2f9c82fe-9e77-4bc3-9e57-b3177cfe4c33');
 let userID;
 
 popupPreview.setEventListeners();
@@ -31,10 +30,13 @@ popupEditProfile.setEventListeners();
 
 const userInfo = new UserInfo('.profile__name', '.profile__caption', '.profile__avatar');
 function setProfile(values) {
-    userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
     popupEditProfile.setBusyStatus();
     api.setUserInfo(userInfo.getUserInfo())
-        .then(() => popupEditProfile.resetBusyStatus())
+    .then(() => {
+        popupEditProfile.resetBusyStatus();
+        userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
+        popupEditProfile.close();
+    })
         .catch((err) => {
             console.log('Ошибка. Запрос не выполнен: ', err)
         .finally(() => popupEditProfile.resetBusyStatus());
@@ -46,7 +48,7 @@ profileEditButton.addEventListener('click', () => {
     popupEditProfile.open({'input-name': user.name, 'input-about': user.about});
 
 });
-const popupChangeAvatarForm = new PopupWithForm('.popup-change-avatar', (values) => setAvatar(values['input-url']));
+const popupChangeAvatarForm =   new PopupWithForm('.popup-change-avatar', (values) => setAvatar(values['input-url']));
 
 changeAvatarButton.addEventListener('click', () => {
     popupChangeAvatarForm.open({'input-url': userInfo.getUserInfo().avatar});
@@ -59,6 +61,8 @@ function setAvatar(url) {
     api.setAvatar(url)
         .then(() => {
             getUserInfoFromServer();
+            userInfo.setAvatar(url);
+            popupChangeAvatarForm.close();
         })
         .catch((err) => {
             console.log('Ошибка. Запрос не выполнен: ', err)
@@ -69,37 +73,14 @@ function setAvatar(url) {
 const popupAddPhoto = new PopupWithForm('.popup-add-photo', (values) => addPhoto(values));
 popupAddPhoto.setEventListeners();
 
-function getUserInfoFromServer() {
-    popupAddPhoto.setBusyStatus();
-    api.getUserInfo()
-        .then((data) => {
-            userInfo.setUserInfo(data);
-            userInfo.setAvatar(data.avatar);
-            userID = data["_id"];
-            popupAddPhoto.resetBusyStatus();
-        })
-        .catch((err) => {
-            console.log('Ошибка. Запрос не выполнен: ', err);
-        })
-        .finally(() => popupAddPhoto.resetBusyStatus());
-}
-
-function getInitCardsFromServer() {
-    api.getCards()
-        .then((data) => {
-            data.forEach(item => {
-                section.addItem(item);
-            })
-        })
-        .catch((err) => {
-            console.log('Ошибка. Запрос не выполнен: ', err);
-        });
-}
-
 function addPhoto(values) {
     const newCard = {name: values["photo-name"], link: values["photo-link"] };
 
     api.addCard(newCard)
+        .then((data) => {
+            section.addItem(data);
+            popupAddPhoto.close();
+        })
         .catch((err) => console.log('Ошибка. Запрос не выполнен: ', err))
         .finally();
 }
@@ -113,7 +94,7 @@ const section = new Section(
     createCard,
     cardsContainerSelector
 );
-getInitCardsFromServer();
+
 
 function createCard(card) {
     const newCard = new Card(card, '#card', handleCardClick, handleDeleteCardClick, handleLikeClick, userID);
@@ -169,7 +150,16 @@ const enableValidation = (config) => {
 };
 
 enableValidation(config);
-getUserInfoFromServer();
-// api.setAvatar('https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/CheHigh.jpg/411px-CheHigh.jpg')
-//     .then((data) => console.log(data))
-//     .catch((err) = console.log(err));
+// Promise.all([api.getUserInfo(), api.getCards()])
+//     .then(([userData, cards]) => {
+//         userInfo.setUserInfo(userData);
+//         userInfo.setAvatar(userData.avatar);
+//         userID = userData["_id"];
+
+//         cards.reverse().forEach(item => {
+//             section.addItem(item);
+//         })
+//     })
+//     .catch((err) => console.log('Ошибка. Запрос не выполнен: ', err));
+        
+
