@@ -32,8 +32,11 @@ popupEditProfile.setEventListeners();
 
 const userInfo = new UserInfo('.profile__name', '.profile__caption', '.profile__avatar');
 function setProfile(values) {
-    userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']});
-    api.setUserInfo(userInfo.getUserInfo());
+    api.setUserInfo(userInfo.getUserInfo())
+        .then(() => {
+            userInfo.setUserInfo({"name": values['input-name'], "about": values['input-about']})
+            popupEditProfile.close();
+        });
 }
 
 profileEditButton.addEventListener('click', () => {
@@ -51,7 +54,8 @@ popupChangeAvatarForm.setEventListeners();
 function setAvatar(url) {
     api.setAvatar(url)
         .then(() => {
-            getUserInfoFromServer();
+            userInfo.setAvatar(url);
+            popupChangeAvatarForm.close();
         });
 }
 
@@ -63,6 +67,7 @@ function getUserInfoFromServer() {
         .then((data) => {
             userInfo.setUserInfo(data);
             userID = data["_id"];
+            popupAddPhoto.close();
         })
         .catch((err) => {
             console.log('Ошибка. Запрос не выполнен: ', err);
@@ -122,6 +127,7 @@ const confirmDelete = new PopupConfirm('.popup-delete-card', (card) => {
     api.deleteCard(card.id)
     .then(() => {
         card.deleteElement();
+        confirmDelete.close();
     })
     .catch((err) = console.log(err));
 });
